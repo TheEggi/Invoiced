@@ -53,7 +53,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </paper-material>
     </template>
     <script>
-    (function() {
+    define(['invoiced-components/canvashelper', 'Victor'], function(ch, Victor) {
         Polymer({
             is: 'work-canvas',
             mousemove: function(evt) {
@@ -84,6 +84,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 });
             }
         });
-    })();
+    });
     </script>
 </dom-module>
