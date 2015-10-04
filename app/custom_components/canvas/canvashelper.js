@@ -1,6 +1,6 @@
  
- define('invoiced-components/canvashelper',
-     function() {
+ define('invoiced-components/canvashelper', ['Victor'],
+     function(Victor) {
         function CanvasHelper(){};
          CanvasHelper.prototype = {
              getMousePos: function(canvas, evt) {
@@ -10,7 +10,8 @@
                      y: evt.clientY - rect.top
                  };
              },
-             drawArrowHead: function(context, startVector, endVector) {
+             drawArrowHead: function(canvas, startVector, endVector) {
+                var context = canvas.getContext('2d');
                  var originalStart = startVector.clone();
                  var originalEnd = endVector.clone();
                  var distance = startVector.distance(endVector);
@@ -27,7 +28,7 @@
                  // ctx.moveTo(originalEnd.x, originalEnd.y);
 
                  var dest = originalEnd.clone().add(umulti); // 20 down
-                 convertToCanvasCoordinates(dest);
+                 this.convertToCanvasCoordinates(dest);
 
                  var V1 = new Victor(-(U.y), U.x);
                  var v1Dist = dest.clone().add(V1.multiply(Victor(w, w)));
@@ -66,7 +67,7 @@
              },
              drawGrid: function(canvas) {
                  var ctx = canvas.getContext('2d');
-                 clearCanvas(ctx);
+                 this.clearCanvas(canvas);
                  ctx.strokeStyle = 'lightgrey';
                  for (i = 0; i < canvas.height; i += 20) {
                      ctx.beginPath();
