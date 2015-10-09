@@ -38,6 +38,9 @@
       dependencies = Array.isArray(id) ? id : [];
     }
     var inferredId = _inferModuleId();
+    if(inferredId.match('.*ictor.*')){
+      var z = 'asdf';
+    }
     if (typeof id !== 'string') {
       id = inferredId;
     }

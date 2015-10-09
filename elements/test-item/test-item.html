@@ -1,0 +1,101 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<dom-module id="test-item">
+    <style>
+    :host {
+        background: blue;
+        width: 200px;
+        height: 200px;
+    }
+    
+    .sequentialWrapper {
+        display: flex;
+        justify-content: stretch;
+        flex-wrap: nowrap;
+        overflow: hidden;
+    }
+    
+    .iconItem {
+        width: 24px;
+        height: 24px;
+        flex: 0 0 24px;
+    }
+    
+    .textItem {
+        margin-left: 5px;
+        padding: 1px;
+        overflow: hidden;
+        flex: 0 1 100%;
+        user-select: none;
+    }
+    
+    .textContent {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        cursor: default;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    
+    .subMenuItem {
+        margin: 5px;
+    }
+    
+    .rootMenuItem {
+        margin: 1px;
+        padding: 3px;
+    }
+    
+    #toolbar {
+        content-alignment: center;
+        height: 90%;
+        width: 90%;
+        margin: 20px;
+    }
+    .bigblue{
+        width: 200px;
+        height: 200px;
+        z-index: 100;
+    }
+    </style>
+    <template>
+        <div class="bigblue">
+            <paper-input label="Invoice number"></paper-input>
+            <paper-input label="Invoice date" value="{{invoiceDate}}"></paper-input>
+            <paper-input label="Invoice date" value="{{invoiceDate}}"></paper-input>
+
+        </div>
+    </template>
+    <script>
+    (function() {
+        Polymer({
+            is: 'test-item',
+            properties: {
+                invoiceDate: {
+                    type: Date,
+                    value: function(){
+                        return new Date();
+                    }
+                }
+            },
+            ready: function() {
+                var z = '123';
+
+            },
+
+        });
+    })();
+    </script>
+</dom-module>
