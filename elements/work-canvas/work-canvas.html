@@ -56,15 +56,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     define(['invoiced-canvashelper', 'Victor'], function(ch, Victor) {
         Polymer({
             is: 'work-canvas',
+            properties: {
+                showarrows: {
+                    type: Boolean,
+                    value: false
+                },
+                selecteditem: {
+                    type: Object,
+                    notify: true,
+                    observer: '_selectedItemChanged'
+                }
+            },
+            _selectedItemChanged: function(evt){
+                
+            },
             mousemove: function(evt) {
                 var mousePos = ch.getMousePos(this.$.canvas, evt);
                 ch.clearCanvas(this.$.canvas);
-                var endVector = new Victor(mousePos.x, 0);
-                var startVector = new Victor(mousePos.x, mousePos.y);
-                ch.drawArrowHead(this.$.canvas, startVector, endVector);
-                var endVector = new Victor(0, mousePos.y);
-                var startVector = new Victor(mousePos.x, mousePos.y);
-                ch.drawArrowHead(this.$.canvas, startVector, endVector);
+                if (this.showArrows) {
+                    var endVector = new Victor(mousePos.x, 0);
+                    var startVector = new Victor(mousePos.x, mousePos.y);
+                    ch.drawArrowHead(this.$.canvas, startVector, endVector);
+                    var endVector = new Victor(0, mousePos.y);
+                    var startVector = new Victor(mousePos.x, mousePos.y);
+                    ch.drawArrowHead(this.$.canvas, startVector, endVector);
+                }
             },
             attached: function(evt) {
                 var gridCanvas = this.$.gridCanvas;
@@ -82,6 +98,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     ch.fitToContainer(arcCanvas);
                     ch.drawGrid(gridCanvas);
                 });
+                var keyCodes = {};
+                keyCodes.left = 37;
+                keyCodes.up = 38; 
+                keyCodes.right = 39; 
+                keyCodes.down = 40; 
+                var thisElement = this;
+                window.addEventListener('keydown', function(e){
+                    e.preventDefault();
+                    switch(e.keyCode){
+                        case keyCodes.left:
+                            thisElement.selecteditem.style.left = (parseInt(thisElement.selecteditem.style.left, 10) - 1) + 'px';
+                        break;
+                        case keyCodes.up:
+                            thisElement.selecteditem.style.top = (parseInt(thisElement.selecteditem.style.top, 10) - 1) + 'px';
+                        break;
+                        case keyCodes.right:
+                            thisElement.selecteditem.style.left = (parseInt(thisElement.selecteditem.style.left, 10) + 1) + 'px';
+                        break;
+                        case keyCodes.down:
+                            thisElement.selecteditem.style.top = (parseInt(thisElement.selecteditem.style.top, 10) + 1) + 'px';
+                        break;
+                    }
+                })
             }
         });
     });

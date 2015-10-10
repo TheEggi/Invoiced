@@ -87,5 +87,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         name: 'TESTPayment Info',
         icon: 'payment'
     }];
+    app.selecteditem = function() { return 0; }
 
 })(document);

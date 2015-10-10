@@ -10,9 +10,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <dom-module id="test-item">
     <style>
     :host {
-        background: blue;
-        width: 200px;
+        width: 90%;
         height: 200px;
+        border: 1px black dashed;
     }
     
     .sequentialWrapper {
@@ -64,18 +64,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 90%;
         margin: 20px;
     }
-    .bigblue{
-        width: 200px;
-        height: 200px;
-        z-index: 100;
-    }
     </style>
     <template>
-        <div class="bigblue">
+        <div>
             <paper-input label="Invoice number"></paper-input>
             <paper-input label="Invoice date" value="{{invoiceDate}}"></paper-input>
             <paper-input label="Invoice date" value="{{invoiceDate}}"></paper-input>
-
         </div>
     </template>
     <script>

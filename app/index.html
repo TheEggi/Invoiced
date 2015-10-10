@@ -64,9 +64,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </paper-toolbar>
             <!-- Main Content -->
             <div class="content">
-                <item-palette id="mainPalette" droparea="{{dropArea}}" items="{{paletteItems}}"></item-palette>
+                <item-palette id="mainPalette" droparea="{{dropArea}}" items="{{paletteItems}}" createditem="{{selecteditem}}"></item-palette>
                 <div id="dropZone">
-                    <work-canvas id="mainCanvas"></work-canvas>
+                    <work-canvas id="mainCanvas" selecteditem="{{selecteditem}}"></work-canvas>
                     <!-- <div id="mainCanvas"></div> -->
                 </div>
             </div>
