@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 (function(document) {
     'use strict';
+
     // Grab a reference to our auto-binding template
     // and give it some initial binding values
     // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
@@ -29,8 +30,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     // See https://github.com/Polymer/polymer/issues/1381
     window.addEventListener('WebComponentsReady', function(evt) {
         // imports are loaded and elements have been registered
-        var dropzone = document.getElementById('dropZone');
-        app.dropArea = dropzone;
+        // var dropzone = document.getElementById('dropZone');
+        // app.dropArea = dropzone;
     });
 
     // Main area's paper-scroll-header-panel custom condensing transformation of
@@ -71,7 +72,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     };
     app.paletteItems = [{
-        name: 'HeadersTEST',
+        name: 'Headers',
         icon: 'view-headline',
         items: [{
             name: 'TESTCooler header1',
@@ -87,6 +88,5 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         name: 'TESTPayment Info',
         icon: 'payment'
     }];
-    app.selecteditem = function() { return 0; }
 
 })(document);

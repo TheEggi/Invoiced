@@ -7,11 +7,13 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
-<dom-module id="test-item">
+<dom-module id="table-item">
     <style>
     :host {
-        width: 90%;
-        height: 200px;
+        display: left;
+        position: relative;
+        height: 100%;
+        width: 100%;
     }
     
     .sequentialWrapper {
@@ -63,32 +65,58 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 90%;
         margin: 20px;
     }
+    
+    #insertion_point {
+        widows: 100%;
+        height: 100%;
+    }
+    
+    #proxy {
+        position: fixed;
+        z-index: 101;
+        display: none;
+        opacity: 0.75;
+        background: #f88;
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        cursor: copy;
+    }
+    
+    #proxy > * {
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0;
+    }
     </style>
     <template>
-        <div>
-            <paper-input label="Invoice number"></paper-input>
-            <paper-input label="Invoice date" value="{{invoiceDate}}"></paper-input>
-            <paper-input label="Invoice date" value="{{invoiceDate}}"></paper-input>
-        </div>
+        <iron-ajax id="ajax" url="http://localhost:4000/api" handle-as="json" on-response="handleResponse" method="GET" debounce-duration="300"></iron-ajax>
+        <template is="dom-repeat" items="{{orders}}">
+            <div>Order# <span>{{index}}</span>:<span>{{item}}</div>
+        </template>
     </template>
     <script>
-    (function() {
-        Polymer({
-            is: 'test-item',
-            properties: {
-                invoiceDate: {
-                    type: Date,
-                    value: function(){
-                        return new Date();
-                    }
-                }
-            },
-            ready: function() {
-                var z = '123';
+    'use strict';
+    Polymer({
+        is: 'table-item',
+        properties: {
+            orders: {
+                type: Array,
+                notify: true,
+                value: ['test', 'test2']
+            }
 
-            },
-
-        });
-    })();
+        },
+        attached: function(evt) {
+            this.$.ajax.generateRequest();
+        },
+        handleResponse: function(evt) {
+            var mapped = evt.detail.response.rows.map(function(obj){
+                return obj.name;
+            });
+            this.orders = mapped;
+        }
+    });
     </script>
 </dom-module>

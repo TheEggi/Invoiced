@@ -40,8 +40,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
     </style>
     <template>
-        <paper-material id="mainCard" class="main" class="unselectable" elevation="3">
-            <div class="card-content">
+        <paper-material id="mainCard" class="main" class="unselectable" elevation="3" on-click="_onClick">
+            <div class="card-content" id="content">
                 <canvas style="position: absolute; left: 0; top: 0; z-index: 0;" id="gridCanvas" width="500" height="500"></canvas>
                 <canvas style="position: absolute; left: 0; top: 0; z-index: 1;" id="arcCanvas" width="500" height="500"></canvas>
                 <canvas style="position: absolute; left: 0; top: 0; z-index: 2;" id="canvas" on-mousemove="mousemove" height="500" width="500">
@@ -54,6 +54,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </template>
     <script>
     define(['invoiced-canvashelper', 'Victor'], function(ch, Victor) {
+        'use strict'
         Polymer({
             is: 'work-canvas',
             properties: {
@@ -65,10 +66,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     type: Object,
                     notify: true,
                     observer: '_selectedItemChanged'
+                },
+                items: {
+                    type: Array,
+                    value: []
                 }
             },
-            _selectedItemChanged: function(evt){
-                
+            _onClick: function(evt) {
+                var target = evt.target;
+                var found = false;
+                do {
+                    if (target.classList.contains('element')) {
+                        // found
+                        found = true;
+                        this.selecteditem = target;
+                        break;
+                    }
+                } while (target = target.parentElement)
+            },
+            _selectedItemChanged: function(evt) {
+                this.items.forEach(function(element) {
+                    element.style.border = 'none';
+                });
+                this.selecteditem.style.border = '1px black dashed'
             },
             mousemove: function(evt) {
                 var mousePos = ch.getMousePos(this.$.canvas, evt);
@@ -83,13 +103,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 }
             },
             attached: function(evt) {
+                var self = this;
                 var gridCanvas = this.$.gridCanvas;
                 var canvas = this.$.canvas;
                 var arcCanvas = this.$.arcCanvas;
+
+                function setPosition(pos, element) {
+
+                    element.style.top = (parseInt(pos.x, 10) - parseInt(self.$.content.offsetTop, 10)) + 'px';
+                    element.style.left = (parseInt(pos.y, 10) - parseInt(self.$.content.offsetLeft, 10)) + 'px';
+                    element.style.position = 'absolute';
+                    return pos;
+                }
                 ch.fitToContainer(canvas);
                 ch.fitToContainer(gridCanvas);
                 ch.fitToContainer(arcCanvas);
                 ch.drawGrid(this.$.gridCanvas);
+
 
 
                 window.addEventListener('resize', function(evt) {
@@ -98,27 +128,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     ch.fitToContainer(arcCanvas);
                     ch.drawGrid(gridCanvas);
                 });
+                document.querySelector('item-palette').addEventListener('elementcreated', function(e) {
+                    var newElement = e.detail.element;
+                    var position = e.detail.position;
+                    setPosition(position, newElement);
+                    Polymer.dom(self.$.content).appendChild(newElement);
+                    self.items.push(newElement);
+
+                    self.selecteditem = newElement;
+
+                });
                 var keyCodes = {};
                 keyCodes.left = 37;
-                keyCodes.up = 38; 
-                keyCodes.right = 39; 
-                keyCodes.down = 40; 
+                keyCodes.up = 38;
+                keyCodes.right = 39;
+                keyCodes.down = 40;
                 var thisElement = this;
-                window.addEventListener('keydown', function(e){
+                window.addEventListener('keydown', function(e) {
                     e.preventDefault();
-                    switch(e.keyCode){
+                    switch (e.keyCode) {
                         case keyCodes.left:
                             thisElement.selecteditem.style.left = (parseInt(thisElement.selecteditem.style.left, 10) - 1) + 'px';
-                        break;
+                            break;
                         case keyCodes.up:
                             thisElement.selecteditem.style.top = (parseInt(thisElement.selecteditem.style.top, 10) - 1) + 'px';
-                        break;
+                            break;
                         case keyCodes.right:
                             thisElement.selecteditem.style.left = (parseInt(thisElement.selecteditem.style.left, 10) + 1) + 'px';
-                        break;
+                            break;
                         case keyCodes.down:
                             thisElement.selecteditem.style.top = (parseInt(thisElement.selecteditem.style.top, 10) + 1) + 'px';
-                        break;
+                            break;
                     }
                 })
             }

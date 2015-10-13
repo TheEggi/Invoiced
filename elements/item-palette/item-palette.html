@@ -233,20 +233,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     return null;
                 }
 
-                function setPosition(dragTarget, pos, element) {
 
-                    element.style.top = (pos.x - parseInt(dragTarget.offsetTop, 10)) + 'px';
-                    element.style.left = (pos.y - parseInt(dragTarget.offsetLeft, 10)) + 'px';
-                    element.style.position = 'absolute';
-                    return pos;
-                }
                 switch (e.detail.state) {
                     case 'start':
                         this.message = 'Tracking started!';
                         var element = e.currentTarget;
                         var dataItem = element.dataHost.__data__.item;
                         //var newElement = dataItem.createElement('div');
-                        var newElement = document.createElement('test-item');
+                        var newElement = document.createElement('table-item');
                         newElement.classList.add('element');
                         // Polymer.dom(newElement).append('draggable', true);
                         this.$.currentlyDragged = newElement;
@@ -274,13 +268,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     case 'end':
                         this.message = 'Tracking ended!';
                         this._hideDragProxy(this.$.currentlyDragged);
-                        Polymer.dom(this.droparea).appendChild(this.$.currentlyDragged);
-                        Polymer.dom.flush();
-                        var pos = setPosition(this.droparea, {
-                            x: parseInt(this.$.proxy.style.top, 10),
-                            y: parseInt(this.$.proxy.style.left, 10)
-                        }, this.$.currentlyDragged)
-                        this.createditem = this.$.currentlyDragged;
+                        this.$.currentlyDragged.style.zIndex = '100';
+                        this.$.currentlyDragged.classList.add('element');
+                        this.fire('elementcreated', {
+                            element: this.$.currentlyDragged,
+                            position: {
+                                x: this.$.proxy.style.left,
+                                y: this.$.proxy.style.top
+                            }
+                        });
                         break;
                 }
             },
