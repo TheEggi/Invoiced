@@ -110,9 +110,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                 function setPosition(pos, element) {
 
-                    element.style.top = (parseInt(pos.x, 10) - parseInt(self.$.content.offsetTop, 10)) + 'px';
-                    element.style.left = (parseInt(pos.y, 10) - parseInt(self.$.content.offsetLeft, 10)) + 'px';
-                    element.style.position = 'absolute';
+                    var newPoint = {
+                        x: 0,
+                        y: 0
+                    };
+                    var offsetTop = 0,
+                        offsetLeft = 0;
+                    var target = self.$.content;
+                    do {
+                        offsetTop += target.offsetTop;
+                        offsetLeft += target.offsetLeft;
+                    } while (target = target.parentElement)
+
+                    newPoint.x = pos.x + offsetTop;
+                    newPoint.y = pos.y + offsetLeft;
+                    var relativePoint = {x: parseInt(pos.x), y: parseInt(pos.y)};
+
+
+                    var test = self.$.mainCard.parentElement.offsetTop;
+                    var rect = self.$.mainCard.getBoundingClientRect();
+
+                    relativePoint.x /= rect.height;
+                    relativePoint.y /= rect.width;
+
+                    element.style.top = (relativePoint.x * 100) + '%';
+                    element.style.left = (relativePoint.y * 100) + '%';
+                    element.style.position = 'relative';
                     return pos;
                 }
                 ch.fitToContainer(canvas);
