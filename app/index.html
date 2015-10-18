@@ -11,70 +11,70 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <html lang="">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Polymer Starter Kit" />
-    <title>Invoice helper</title>
-    <!-- Place favicon.ico in the `app/` directory -->
-    <!-- Chrome for Android theme color -->
-    <meta name="theme-color" content="#303F9F">
-    <!-- Web Application Manifest -->
-    <link rel="manifest" href="manifest.json">
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono:400,100,700italic' rel='stylesheet' type='text/css'>
-    <!-- Tile color for Win8 -->
-    <meta name="msapplication-TileColor" content="#3372DF">
-    <!-- Add to homescreen for Chrome on Android -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="PSK">
-    <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
-    <!-- Add to homescreen for Safari on iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Polymer Starter Kit">
-    <link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
-    <link rel="import" href="../bower_components/iron-icons/hardware-icons.html">
-    <!-- Tile icon for Win8 (144x144) -->
-    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
-    <!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <!-- endbuild-->
-    <!-- build:js bower_components/webcomponentsjs/webcomponents.min.js -->
-    <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-    <!-- endbuild -->
-    <!-- will be replaced with elements/elements.vulcanized.html -->
-    <link rel="import" href="../elements/elements.html">
-    <!-- endreplace-->
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="generator" content="Polymer Starter Kit" />
+  <title>Invoice helper</title>
+  <!-- Place favicon.ico in the `app/` directory -->
+  <!-- Chrome for Android theme color -->
+  <meta name="theme-color" content="#303F9F">
+  <!-- Web Application Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Mono:400,100,700italic' rel='stylesheet' type='text/css'>
+  <!-- Tile color for Win8 -->
+  <meta name="msapplication-TileColor" content="#3372DF">
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="PSK">
+  <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Polymer Starter Kit">
+  <link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
+  <link rel="import" href="../bower_components/iron-icons/hardware-icons.html">
+  <!-- Tile icon for Win8 (144x144) -->
+  <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+  <!-- build:css styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild-->
+  <!-- build:js bower_components/webcomponentsjs/webcomponents.min.js -->
+  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <!-- endbuild -->
+  <!-- will be replaced with elements/elements.vulcanized.html -->
+  <link rel="import" href="../elements/elements.html">
+  <!-- endreplace-->
 </head>
 
 <body unresolved class="fullbleed layout vertical">
-    <span id="browser-sync-binding"></span>
-    <template is="dom-bind" id="app">
-        <!-- Main Area -->
-        <paper-scroll-header-panel main>
-            <!-- Main Toolbar -->
-            <paper-toolbar id="mainToolbar">
-                <div class="middle-container">
-                    <paper-input-container id="searchbox" onclick="{{clearInput}}">
-                        <label>Type a new search</label>
-                        <input is="iron-input" bind-value="{{searchInput}}">
-                        <paper-icon-button suffix class="big-header-icon" icon="hardware:keyboard-voice" onclick="{{clearInput}}"></paper-icon-button>
-                    </paper-input-container>
-                </div>
-            </paper-toolbar>
-            <!-- Main Content -->
-            <div class="content">
-                <item-palette id="mainPalette" droparea="{{dropArea}}" items="{{paletteItems}}" createditem="{{selecteditem}}"></item-palette>
-                <div id="dropZone">
-                    <work-canvas id="mainCanvas" selecteditem="{{selecteditem}}"></work-canvas>
-                    <!-- <div id="mainCanvas"></div> -->
-                </div>
-            </div>
-        </paper-scroll-header-panel>
-    </template>
-    <!-- build:js scripts/app.js -->
-    <script src="scripts/app.js"></script>
-    <!-- endbuild-->
+  <span id="browser-sync-binding"></span>
+  <template is="dom-bind" id="app">
+    <!-- Main Area -->
+    <div id="dropZone">
+      <paper-scroll-header-panel main>
+        <!-- Main Toolbar -->
+        <paper-toolbar id="mainToolbar">
+          <div class="middle-container">
+            <paper-input-container id="searchbox" onclick="{{clearInput}}">
+              <label>Type a new search</label>
+              <input is="iron-input" bind-value="{{searchInput}}">
+              <paper-icon-button suffix class="big-header-icon" icon="hardware:keyboard-voice" onclick="{{clearInput}}"></paper-icon-button>
+            </paper-input-container>
+          </div>
+        </paper-toolbar>
+        <!-- Main Content -->
+        <div class="content">
+          <item-palette id="mainPalette" droparea="{{dropArea}}" items="{{paletteItems}}" createditem="{{selecteditem}}"></item-palette>
+          <work-canvas id="mainCanvas" selecteditem="{{selecteditem}}"></work-canvas>
+          <!-- <div id="mainCanvas"></div> -->
+        </div>
+      </paper-scroll-header-panel>
+    </div>
+  </template>
+  <!-- build:js scripts/app.js -->
+  <script src="scripts/app.js"></script>
+  <!-- endbuild-->
 </body>
 
 </html>

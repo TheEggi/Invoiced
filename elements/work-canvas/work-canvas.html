@@ -9,183 +9,195 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 <link rel="import" href="../dependencies.html">
 <dom-module id="work-canvas">
-    <style>
-    :host {
-        width: 100%;
-        height: 100%;
-    }
-    
-    paper-material.main {
-        height: 90%;
-        width: 90%;
-        margin: 20px;
-    }
-    
-    *.unselectable {
-        -moz-user-select: -moz-none;
-        -khtml-user-select: none;
-        -webkit-user-select: none;
-        /*
+  <style>
+  :host {
+    width: 100%;
+    height: 100%;
+  }
+  
+  paper-material.main {
+    height: 90%;
+    width: 90%;
+    margin: 20px;
+  }
+  
+  *.unselectable {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    /*
      Introduced in IE 10.
      See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
    */
-        -ms-user-select: none;
-        user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  @media (max-width: 600px) {
+    h1.paper-font-display1 {
+      font-size: 24px;
     }
-    
-    @media (max-width: 600px) {
-        h1.paper-font-display1 {
-            font-size: 24px;
+  }
+  </style>
+  <template>
+    <paper-material id="mainCard" class="main" elevation="3" on-click="_onClick" on-track="_onTrack">
+      <div class="card-content" id="content">
+        <canvas style="position: absolute; left: 0; top: 0; z-index: 0;" id="gridCanvas" width="500" height="500"></canvas>
+        <canvas style="position: absolute; left: 0; top: 0; z-index: 1;" id="arcCanvas" width="500" height="500"></canvas>
+        <canvas style="position: absolute; left: 0; top: 0; z-index: 2;" id="canvas" on-track="_onTrack" on-mousemove="_onMouseMove" height="500" width="500">
+          <div id="main">
+            <div class="blue draggable"></div>
+          </div>
+        </canvas>
+      </div>
+    </paper-material>
+  </template>
+  <script>
+  define(['invoiced-canvashelper', 'Victor'], function(ch, Victor) {
+    'use strict'
+    Polymer({
+      is: 'work-canvas',
+      properties: {
+        showarrows: {
+          type: Boolean,
+          value: false
+        },
+        selecteditem: {
+          type: Object,
+          notify: true,
+          observer: '_selectedItemChanged'
+        },
+        items: {
+          type: Array,
+          value: []
         }
-    }
-    </style>
-    <template>
-        <paper-material id="mainCard" class="main" class="unselectable" elevation="3" on-click="_onClick">
-            <div class="card-content" id="content">
-                <canvas style="position: absolute; left: 0; top: 0; z-index: 0;" id="gridCanvas" width="500" height="500"></canvas>
-                <canvas style="position: absolute; left: 0; top: 0; z-index: 1;" id="arcCanvas" width="500" height="500"></canvas>
-                <canvas style="position: absolute; left: 0; top: 0; z-index: 2;" id="canvas" on-mousemove="mousemove" height="500" width="500">
-                    <div id="main">
-                        <div class="blue draggable"></div>
-                    </div>
-                </canvas>
-            </div>
-        </paper-material>
-    </template>
-    <script>
-    define(['invoiced-canvashelper', 'Victor'], function(ch, Victor) {
-        'use strict'
-        Polymer({
-            is: 'work-canvas',
-            properties: {
-                showarrows: {
-                    type: Boolean,
-                    value: false
-                },
-                selecteditem: {
-                    type: Object,
-                    notify: true,
-                    observer: '_selectedItemChanged'
-                },
-                items: {
-                    type: Array,
-                    value: []
-                }
-            },
-            _onClick: function(evt) {
-                var target = evt.target;
-                var found = false;
-                do {
-                    if (target.classList.contains('element')) {
-                        // found
-                        found = true;
-                        this.selecteditem = target;
-                        break;
-                    }
-                } while (target = target.parentElement)
-            },
-            _selectedItemChanged: function(evt) {
-                this.items.forEach(function(element) {
-                    element.style.border = 'none';
-                });
-                this.selecteditem.style.border = '1px black dashed'
-            },
-            mousemove: function(evt) {
-                var mousePos = ch.getMousePos(this.$.canvas, evt);
-                ch.clearCanvas(this.$.canvas);
-                if (this.showArrows) {
-                    var endVector = new Victor(mousePos.x, 0);
-                    var startVector = new Victor(mousePos.x, mousePos.y);
-                    ch.drawArrowHead(this.$.canvas, startVector, endVector);
-                    var endVector = new Victor(0, mousePos.y);
-                    var startVector = new Victor(mousePos.x, mousePos.y);
-                    ch.drawArrowHead(this.$.canvas, startVector, endVector);
-                }
-            },
-            attached: function(evt) {
-                var self = this;
-                var gridCanvas = this.$.gridCanvas;
-                var canvas = this.$.canvas;
-                var arcCanvas = this.$.arcCanvas;
-
-                function setPosition(pos, element) {
-
-                    var newPoint = {
-                        x: 0,
-                        y: 0
-                    };
-                    var offsetTop = 0,
-                        offsetLeft = 0;
-                    var target = self.$.content;
-                    do {
-                        offsetTop += target.offsetTop;
-                        offsetLeft += target.offsetLeft;
-                    } while (target = target.parentElement)
-
-                    newPoint.x = pos.x + offsetTop;
-                    newPoint.y = pos.y + offsetLeft;
-                    var relativePoint = {x: parseInt(pos.x), y: parseInt(pos.y)};
-
-
-                    var test = self.$.mainCard.parentElement.offsetTop;
-                    var rect = self.$.mainCard.getBoundingClientRect();
-
-                    relativePoint.x /= rect.height;
-                    relativePoint.y /= rect.width;
-
-                    element.style.top = (relativePoint.x * 100) + '%';
-                    element.style.left = (relativePoint.y * 100) + '%';
-                    element.style.position = 'relative';
-                    return pos;
-                }
-                ch.fitToContainer(canvas);
-                ch.fitToContainer(gridCanvas);
-                ch.fitToContainer(arcCanvas);
-                ch.drawGrid(this.$.gridCanvas);
-
-
-
-                window.addEventListener('resize', function(evt) {
-                    ch.fitToContainer(canvas);
-                    ch.fitToContainer(gridCanvas);
-                    ch.fitToContainer(arcCanvas);
-                    ch.drawGrid(gridCanvas);
-                });
-                document.querySelector('item-palette').addEventListener('elementcreated', function(e) {
-                    var newElement = e.detail.element;
-                    var position = e.detail.position;
-                    setPosition(position, newElement);
-                    Polymer.dom(self.$.content).appendChild(newElement);
-                    self.items.push(newElement);
-
-                    self.selecteditem = newElement;
-
-                });
-                var keyCodes = {};
-                keyCodes.left = 37;
-                keyCodes.up = 38;
-                keyCodes.right = 39;
-                keyCodes.down = 40;
-                var thisElement = this;
-                window.addEventListener('keydown', function(e) {
-                    e.preventDefault();
-                    switch (e.keyCode) {
-                        case keyCodes.left:
-                            thisElement.selecteditem.style.left = (parseInt(thisElement.selecteditem.style.left, 10) - 1) + 'px';
-                            break;
-                        case keyCodes.up:
-                            thisElement.selecteditem.style.top = (parseInt(thisElement.selecteditem.style.top, 10) - 1) + 'px';
-                            break;
-                        case keyCodes.right:
-                            thisElement.selecteditem.style.left = (parseInt(thisElement.selecteditem.style.left, 10) + 1) + 'px';
-                            break;
-                        case keyCodes.down:
-                            thisElement.selecteditem.style.top = (parseInt(thisElement.selecteditem.style.top, 10) + 1) + 'px';
-                            break;
-                    }
-                })
-            }
+      },
+      _onTrack: function(e) {
+        switch (e.detail.state) {
+          case 'start':
+            this.message = 'Tracking started!';
+            break;
+          case 'track':
+            let rect = this.$.mainCard.getBoundingClientRect();
+            let relativePoint = {
+              x: e.detail.ddx,
+              y: e.detail.ddy
+            };
+            relativePoint.x /= rect.width;
+            relativePoint.y /= rect.height;
+            this.selecteditem.style.top = (parseFloat(this.selecteditem.style.top) + relativePoint.y) + '%';
+            this.selecteditem.style.left = (parseFloat(this.selecteditem.style.left) + relativePoint.x) + '%';
+            break;
+          case 'end':
+            this.message = 'Tracking ended!';
+            break;
+        }
+      },
+      _onClick: function(evt) {
+        var target = evt.target;
+        var found = false;
+        do {
+          if (target.classList.contains('element')) {
+            // found
+            found = true;
+            this.selecteditem = target;
+            break;
+          }
+        } while (target = target.parentElement)
+      },
+      _selectedItemChanged: function(evt) {
+        this.items.forEach(function(element) {
+          element.style.border = 'none';
         });
+        this.selecteditem.style.border = '1px black dashed'
+      },
+      _onMouseMove: function(evt) {
+        var mousePos = ch.getMousePos(this.$.canvas, evt);
+        ch.clearCanvas(this.$.canvas);
+        if (this.showArrows) {
+          var endVector = new Victor(mousePos.x, 0);
+          var startVector = new Victor(mousePos.x, mousePos.y);
+          ch.drawArrowHead(this.$.canvas, startVector, endVector);
+          var endVector = new Victor(0, mousePos.y);
+          var startVector = new Victor(mousePos.x, mousePos.y);
+          ch.drawArrowHead(this.$.canvas, startVector, endVector);
+        }
+      },
+      attached: function(evt) {
+        let setPosition = (pos, element) => {
+
+          let relativePoint = {};
+          let offsetTop = 0;
+          let offsetLeft = 0;
+          let target = this.$.content;
+          do {
+            offsetTop += target.offsetTop;
+            offsetLeft += target.offsetLeft;
+          } while (target = target.parentElement)
+          relativePoint = {
+            x: parseInt(pos.x, 10), // - offsetLeft,
+            y: parseInt(pos.y, 10), // - offsetTop
+          }
+
+          let rect = this.$.mainCard.getBoundingClientRect();
+          relativePoint.x -= rect.left;
+          relativePoint.y -= rect.top;
+          relativePoint.x /= rect.width;
+          relativePoint.y /= rect.height;
+
+          element.style.top = (relativePoint.y * 100) + '%';
+          element.style.left = (relativePoint.x * 100) + '%';
+          element.style.position = 'absolute';
+          return pos;
+        }
+
+        ch.fitToContainer(this.$.canvas);
+        ch.fitToContainer(this.$.gridCanvas);
+        ch.fitToContainer(this.$.arcCanvas);
+        ch.drawGrid(this.$.gridCanvas);
+
+        window.addEventListener('resize', (evt) => {
+          ch.fitToContainer(this.$.canvas);
+          ch.fitToContainer(this.$.gridCanvas);
+          ch.fitToContainer(this.$.arcCanvas);
+          ch.drawGrid(this.$.gridCanvas);
+        });
+
+        document.querySelector('item-palette').addEventListener('elementcreated', (e) => {
+          let newElement = e.detail.element;
+          let position = e.detail.position;
+          setPosition(position, newElement);
+          Polymer.dom(this.$.content).appendChild(newElement);
+          this.items.push(newElement);
+          this.selecteditem = newElement;
+        });
+        let keyCodes = {
+          left: 37,
+          up: 38,
+          right: 39,
+          down: 40
+        };
+        window.addEventListener('keydown', e => {
+          if (e.keyCode >= 37 && e.keyCode <= 40) {
+            e.preventDefault();
+          }
+          switch (e.keyCode) {
+            case keyCodes.left:
+              this.selecteditem.style.left = (parseInt(this.selecteditem.style.left, 10) - 1) + '%';
+              break;
+            case keyCodes.up:
+              this.selecteditem.style.top = (parseInt(this.selecteditem.style.top, 10) - 1) + '%';
+              break;
+            case keyCodes.right:
+              this.selecteditem.style.left = (parseInt(this.selecteditem.style.left, 10) + 1) + '%';
+              break;
+            case keyCodes.down:
+              this.selecteditem.style.top = (parseInt(this.selecteditem.style.top, 10) + 1) + '%';
+              break;
+          }
+        });
+      }
     });
-    </script>
+  });
+  </script>
 </dom-module>
