@@ -73,20 +73,49 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
       _onTrack: function(e) {
+        let setPosition = (pos, element) => {
+
+          let relativePoint = {};
+          let offsetTop = 0;
+          let offsetLeft = 0;
+          let target = this.$.content;
+          do {
+            offsetTop += target.offsetTop;
+            offsetLeft += target.offsetLeft;
+          } while (target = target.parentElement)
+          relativePoint = {
+            x: parseInt(pos.x, 10), // - offsetLeft,
+            y: parseInt(pos.y, 10), // - offsetTop
+          }
+
+          let rect = this.$.mainCard.getBoundingClientRect();
+          relativePoint.x -= rect.left;
+          relativePoint.y -= rect.top;
+          relativePoint.x /= rect.width;
+          relativePoint.y /= rect.height;
+
+          element.style.top = (relativePoint.y * 100) + '%';
+          element.style.left = (relativePoint.x * 100) + '%';
+          element.style.position = 'absolute';
+          return pos;
+        }
         switch (e.detail.state) {
           case 'start':
             this.message = 'Tracking started!';
+            e.preventDefault();
             break;
           case 'track':
             let rect = this.$.mainCard.getBoundingClientRect();
             let relativePoint = {
-              x: e.detail.ddx,
-              y: e.detail.ddy
+              x: e.detail.x,
+              y: e.detail.y
             };
-            relativePoint.x /= rect.width;
-            relativePoint.y /= rect.height;
-            this.selecteditem.style.top = (parseFloat(this.selecteditem.style.top) + relativePoint.y) + '%';
-            this.selecteditem.style.left = (parseFloat(this.selecteditem.style.left) + relativePoint.x) + '%';
+            // relativePoint.x /= rect.width;
+            // relativePoint.y /= rect.height;
+            // console.log(`x: ${relativePoint.x}, y: ${relativePoint.y}`);
+            // this.selecteditem.style.top = (parseFloat(this.selecteditem.style.top) + relativePoint.y) + '%';
+            // this.selecteditem.style.left = (parseFloat(this.selecteditem.style.left) + relativePoint.x) + '%';
+            setPosition(relativePoint, this.selecteditem);
             break;
           case 'end':
             this.message = 'Tracking ended!';
