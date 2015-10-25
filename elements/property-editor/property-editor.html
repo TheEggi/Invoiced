@@ -9,43 +9,45 @@
   'use strict'
   Polymer({
     is: 'property-editor',
-      properties: {
-        selecteditem: {
-          type: Object,
-          notify: true,
-          observer: '_onSelectedItemChanged',
-        },
-        _properties: {
-          type: Object,
-          notify: true,
-          observer: '_onPropertiesChanged',
-        },
-        observers: [
-        	'propertyValueChanged(_properties.propertyValue)'
-        ]
+    properties: {
+      selecteditem: {
+        type: Object,
+        notify: true,
+        observer: '_onSelectedItemChanged',
       },
-      attached: function(evt){
+      _properties: {
+        type: Object,
+        notify: true,
+        observer: '_onPropertiesChanged',
       },
-      _onSelectedItemChanged: function(evt) {
-        let style = [];
-        for (let i = 0; i < this.selecteditem.style.length; i++) {
-          style.push({
-          	name: this.selecteditem.style[i],
-          	propertyValue: this.selecteditem.style.getPropertyValue(this.selecteditem.style[i]),
-          	propertyPriority: this.selecteditem.style.getPropertyPriority(this.selecteditem.style[i]),
-          });
-        }
-        Object.observe(style, (changes) => {
-        	var z = changes;
-        })
-        this._properties = style;
-      },
-      _onPropertiesChanged: function(evt) {
-      	var z = this;
-      },
-      propertyValueChanged: function(value){
-      	var z = value;
+    },
+    observers: [
+      'propertyValueChanged(_properties.*)'
+    ],
+
+    attached: function(evt) {},
+    _onSelectedItemChanged: function(evt) {
+      let style = [];
+      for (let i = 0; i < this.selecteditem.style.length; i++) {
+        style.push({
+          name: this.selecteditem.style[i],
+          propertyValue: this.selecteditem.style.getPropertyValue(this.selecteditem.style[i]),
+          propertyPriority: this.selecteditem.style.getPropertyPriority(this.selecteditem.style[i]),
+        });
       }
+      Object.observe(style, (changes) => {
+        var z = changes;
+      })
+      this._properties = style;
+    },
+    _onPropertiesChanged: function(evt) {
+      var z = this;
+    },
+    propertyValueChanged: function(value) {
+      let pos = parseInt(value.path.split('.')[1], 10);
+      let name = this._properties[pos].name;
+      this.selecteditem.style.setPropertyValue(name, value.value);
+    }
   });
   </script>
 </dom-module>
