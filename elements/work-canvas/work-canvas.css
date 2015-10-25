@@ -1,0 +1,28 @@
+:host {
+    width: 100%;
+    height: 100%;
+  }
+  
+  paper-material.main {
+    height: 90%;
+    width: 90%;
+    margin: 20px;
+  }
+  
+  *.unselectable {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    /*
+     Introduced in IE 10.
+     See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+   */
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  @media (max-width: 600px) {
+    h1.paper-font-display1 {
+      font-size: 24px;
+    }
+  }

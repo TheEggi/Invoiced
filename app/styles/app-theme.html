@@ -21,185 +21,179 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 /* Application theme */
 
 :root {
-    --dark-primary-color: #0288D1;
-    --default-primary-color: #03A9F4;
-    --light-primary-color: #B3E5FC;
-    --text-primary-color: #FFFFFF;
-    /*text/icons*/
-    --accent-color: #03A9F4;
-    --primary-background-color: #212121;
-    --primary-text-color: #212121;
-    --secondary-text-color: #727272;
-    --disabled-text-color: #bdbdbd;
-    --divider-color: #B6B6B6;
-    /* Components */
-    /* paper-drawer-panel */
-    --drawer-menu-color: #ffffff;
-    --drawer-border-color: 1px solid #ccc;
-    --drawer-toolbar-border-color: 1px solid rgba(0, 0, 0, 0.22);
-    /* paper-menu */
-    --paper-menu-background-color: #fff;
-    --menu-link-color: #111111;
-    /* paper-input */
-    --paper-input-container-label: #ffffff;
-    --light-blue: #90caf9;
-    /* paper tabs */
-    --paper-toolbar-background: var(--default-primary-color);
+  --dark-primary-color: #0288D1;
+  --default-primary-color: #03A9F4;
+  --light-primary-color: #B3E5FC;
+  --text-primary-color: #FFFFFF;
+  /*text/icons*/
+  --accent-color: #03A9F4;
+  --primary-background-color: #212121;
+  --primary-text-color: #212121;
+  --secondary-text-color: #727272;
+  --disabled-text-color: #bdbdbd;
+  --divider-color: #B6B6B6;
+  /* Components */
+  /* paper-drawer-panel */
+  --drawer-menu-color: #ffffff;
+  --drawer-border-color: 1px solid #ccc;
+  --drawer-toolbar-border-color: 1px solid rgba(0, 0, 0, 0.22);
+  /* paper-menu */
+  --paper-menu-background-color: #fff;
+  /* paper-input */
+  --paper-input-container-label: #ffffff;
+  --light-blue: #90caf9;
+  /* paper tabs */
+  --paper-toolbar-background: var(--default-primary-color);
+  --paper-tab-ink: var(--default-primary-color);
+  --paper-tabs-selection-bar-color: var(--light-blue);
 }
+
 
 
 /* General styles */
 
 #drawerToolbar {
-    color: var(--secondary-text-color);
-    background-color: var(--drawer-menu-color);
-    border-bottom: var(--drawer-toolbar-border-color);
+  color: var(--secondary-text-color);
+  background-color: var(--drawer-menu-color);
+  border-bottom: var(--drawer-toolbar-border-color);
 }
 
 #dropZone {
-    width: 100%;
-    height: 100%;
-    position: relative;
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
-
-
 paper-scroll-header-panel {
-    height: 100%;
+  height: 100%;
 }
 
 paper-material {
-    border-radius: 2px;
-    height: 100%;
-    padding: 16px 0 16px 0;
-    width: calc(98.66% - 16px);
-    margin: 16px auto;
-    background: white;
-}
-
-paper-tabs {
-    background-color: var(--default-primary-color);
-    color: #000;
-    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  height: 100%;
+  padding: 16px 0 16px 0;
+  width: calc(98.66% - 16px);
+  margin: 16px auto;
+  background: white;
 }
 
 paper-menu iron-icon {
-    margin-right: 33px;
-    opacity: 0.54;
+  margin-right: 33px;
+  opacity: 0.54;
 }
 
 .paper-menu > .iron-selected {
-    color: var(--default-primary-color);
+  color: var(--default-primary-color);
 }
 
 paper-menu a {
-    text-decoration: none;
-    color: var(--menu-link-color);
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -ms-flex-direction: row;
-    -webkit-flex-direction: row;
-    flex-direction: row;
-    -ms-flex-align: center;
-    -webkit-align-items: center;
-    align-items: center;
-    font-family: 'Roboto', 'Noto', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 24px;
-    min-height: 48px;
-    padding: 0 16px;
+  text-decoration: none;
+  color: var(--menu-link-color);
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -ms-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  font-family: 'Roboto', 'Noto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  min-height: 48px;
+  padding: 0 16px;
 }
 
 paper-toolbar.tall .app-name {
-    font-size: 40px;
-    font-weight: 300;
-    /* Required for main area's paper-scroll-header-panel custom condensing transformation */
-    -webkit-transform-origin: left center;
-    transform-origin: left center;
+  font-size: 40px;
+  font-weight: 300;
+  /* Required for main area's paper-scroll-header-panel custom condensing transformation */
+  -webkit-transform-origin: left center;
+  transform-origin: left center;
 }
 
 #mainToolbar {
-    height: 150px;
+  height: 150px;
 }
 
 #mainToolbar .middle-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-    background: var(--default-primary-color)
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  background: var(--default-primary-color)
 }
 
 .content {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 #mainCanvas {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 #mainPalette {
-    width: 20%;
+  width: 20%;
 }
 
 paper-toolbar::shadow #topBar {
-    height: 100%;
+  height: 100%;
 }
 
 #mainToolbar .debug {
-    border-style: solid;
-    border-width: 3px;
+  border-style: solid;
+  border-width: 3px;
 }
 
 #searchbox {
-    width: 80%;
+  width: 80%;
+  font-size: 40px;
+  color: white;
+  --paper-input-container-label: {
     font-size: 40px;
+    font-weight: 100;
     color: white;
-    --paper-input-container-label: {
-        font-size: 40px;
-        font-weight: 100;
-        color: white;
-    }
-    ;
-    --paper-input-container-input: {
-        font-size: 28px;
-        font-weight: 200;
-        color: white;
-    }
-    ;
-    --paper-input-container-underline: {
-        background: var(--light-blue);
-        height: 2px;
-    }
-    --paper-input-container-suffix: {
-        --iron-icon-height: 100px;
-        --iron-icon-width: 100px;
-    }
+  }
+  ;
+  --paper-input-container-input: {
+    font-size: 28px;
+    font-weight: 200;
+    color: white;
+  }
+  ;
+  --paper-input-container-underline: {
+    background: var(--light-blue);
+    height: 2px;
+  }
+  --paper-input-container-suffix: {
+    --iron-icon-height: 100px;
+    --iron-icon-width: 100px;
+  }
 }
 
 .big-header-icon {
-    --iron-icon-height: 48px;
-    --iron-icon-width: 48px;
+  --iron-icon-height: 48px;
+  --iron-icon-width: 48px;
 }
 
 #mainToolbar:not(.tall) .middle {
-    font-size: 40px;
-    padding-bottom: 0;
+  font-size: 40px;
+  padding-bottom: 0;
 }
 
 
 /* Height of the scroll area */
 
 .content {
-    height: 900px;
-    overflow: hidden;
+  height: 900px;
+  overflow: hidden;
 }
 
 
@@ -209,46 +203,46 @@ paper-toolbar::shadow #topBar {
 /* Small */
 
 @media (max-width: 600px) {
-    paper-material {
-        --menu-container-display: none;
-        width: calc(97.33% - 32px);
-        padding-left: 16px;
-        padding-right: 16px;
-    }
-    .paper-font-display1 {
-        font-size: 12px;
-    }
-    paper-toolbar.tall .app-name {
-        font-size: 24px;
-        font-weight: 400;
-    }
-    #drawer .paper-toolbar {
-        margin-left: 16px;
-    }
-    #overlay {
-        min-width: 360px;
-    }
-    .bg {
-        background: white;
-    }
+  paper-material {
+    --menu-container-display: none;
+    width: calc(97.33% - 32px);
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .paper-font-display1 {
+    font-size: 12px;
+  }
+  paper-toolbar.tall .app-name {
+    font-size: 24px;
+    font-weight: 400;
+  }
+  #drawer .paper-toolbar {
+    margin-left: 16px;
+  }
+  #overlay {
+    min-width: 360px;
+  }
+  .bg {
+    background: white;
+  }
 }
 
 
 /* Tablet+ */
 
 @media (min-width: 601px) {
-    paper-material {
-        width: calc(98% - 46px);
-        margin-bottom: 32px;
-        padding-left: 30px;
-        padding-right: 30px;
-    }
-    #drawer.paper-drawer-panel > [drawer] {
-        border-right: 1px solid rgba(0, 0, 0, 0.14);
-    }
-    iron-pages {
-        padding: 48px 62px;
-    }
+  paper-material {
+    width: calc(98% - 46px);
+    margin-bottom: 32px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  #drawer.paper-drawer-panel > [drawer] {
+    border-right: 1px solid rgba(0, 0, 0, 0.14);
+  }
+  iron-pages {
+    padding: 48px 62px;
+  }
 }
 
 

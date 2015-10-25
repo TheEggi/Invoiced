@@ -9,46 +9,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 <link rel="import" href="../dependencies.html">
 <dom-module id="work-canvas">
-  <style>
-  :host {
-    width: 100%;
-    height: 100%;
-  }
-  
-  paper-material.main {
-    height: 90%;
-    width: 90%;
-    margin: 20px;
-  }
-  
-  *.unselectable {
-    -moz-user-select: -moz-none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    /*
-     Introduced in IE 10.
-     See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
-   */
-    -ms-user-select: none;
-    user-select: none;
-  }
-  
-  @media (max-width: 600px) {
-    h1.paper-font-display1 {
-      font-size: 24px;
-    }
-  }
-  </style>
+  <link rel="import" type="css" href="work-canvas.css">
   <template>
     <paper-material id="mainCard" class="main" elevation="3" on-click="_onClick" on-track="_onTrack">
       <div class="card-content" id="content">
         <canvas style="position: absolute; left: 0; top: 0; z-index: 0;" id="gridCanvas" width="500" height="500"></canvas>
         <canvas style="position: absolute; left: 0; top: 0; z-index: 1;" id="arcCanvas" width="500" height="500"></canvas>
-        <canvas style="position: absolute; left: 0; top: 0; z-index: 2;" id="canvas" on-track="_onTrack" on-mousemove="_onMouseMove" height="500" width="500">
-          <div id="main">
-            <div class="blue draggable"></div>
-          </div>
-        </canvas>
+        <canvas style="position: absolute; left: 0; top: 0; z-index: 2;" id="canvas" on-track="_onTrack" on-mousemove="_onMouseMove" height="500" width="500"></canvas>
       </div>
     </paper-material>
   </template>
@@ -110,11 +77,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               x: e.detail.x,
               y: e.detail.y
             };
-            // relativePoint.x /= rect.width;
-            // relativePoint.y /= rect.height;
-            // console.log(`x: ${relativePoint.x}, y: ${relativePoint.y}`);
-            // this.selecteditem.style.top = (parseFloat(this.selecteditem.style.top) + relativePoint.y) + '%';
-            // this.selecteditem.style.left = (parseFloat(this.selecteditem.style.left) + relativePoint.x) + '%';
             setPosition(relativePoint, this.selecteditem);
             break;
           case 'end':

@@ -16,7 +16,7 @@ app.get('/', function(req, res) {
     // and sending a text 'Ola Mundo!' to see
     // nodemon restarting the server upon edit
 
-    res.sendfile(path.resolve(__dirname + '/../../app/index.html'));
+    res.sendFile(path.resolve(__dirname + '/../../app/index.html'));
     //  res.send('Ola Mundo!');
 
 });
