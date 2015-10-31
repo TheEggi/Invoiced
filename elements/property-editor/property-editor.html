@@ -1,9 +1,11 @@
 <dom-module id="property-editor">
   <link rel="import" type="css" href="property-editor.css">
   <template>
-    <template is="dom-repeat" items="{{_properties}}">
-      <paper-input label="{{item.name}}" value="{{item.propertyValue}}"></paper-input>
-    </template>
+    <div id="propertyContainer">
+      <template is="dom-repeat" items="{{_properties}}">
+        <paper-input label="{{item.name}}" value="{{item.propertyValue}}"></paper-input>
+      </template>
+    </div>
   </template>
   <script>
   'use strict'
@@ -38,6 +40,12 @@
         }
         this._properties = style;
       }
+
+    },
+    _onSelectedItemChanged: function(evt) {
+      if (this.mutationObserver) {
+        this.mutationObserver.disconnect();
+      }
       this.mutationObserver = new MutationObserver((mutation) => {
         this.setStyle();
       });
@@ -48,9 +56,7 @@
         characterDataOldValue: true,
         subtree: true,
       };
-      this.mutationObserver.observe(document, config);
-    },
-    _onSelectedItemChanged: function(evt) {
+      this.mutationObserver.observe(this.selecteditem, config);
       this.setStyle();
       // mutation observer for selected element
 
