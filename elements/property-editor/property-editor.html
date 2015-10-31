@@ -25,20 +25,35 @@
       'propertyValueChanged(_properties.*)'
     ],
 
-    attached: function(evt) {},
-    _onSelectedItemChanged: function(evt) {
-      let style = [];
-      for (let i = 0; i < this.selecteditem.style.length; i++) {
-        style.push({
-          name: this.selecteditem.style[i],
-          propertyValue: this.selecteditem.style.getPropertyValue(this.selecteditem.style[i]),
-          propertyPriority: this.selecteditem.style.getPropertyPriority(this.selecteditem.style[i]),
-        });
+
+    attached: function(evt) {
+      this.setStyle = () => {
+        let style = [];
+        for (let i = 0; i < this.selecteditem.style.length; i++) {
+          style.push({
+            name: this.selecteditem.style[i],
+            propertyValue: this.selecteditem.style.getPropertyValue(this.selecteditem.style[i]),
+            propertyPriority: this.selecteditem.style.getPropertyPriority(this.selecteditem.style[i]),
+          });
+        }
+        this._properties = style;
       }
-      Object.observe(style, (changes) => {
-        var z = changes;
-      })
-      this._properties = style;
+      this.mutationObserver = new MutationObserver((mutation) => {
+        this.setStyle();
+      });
+      let config = {
+        attributes: true,
+        childList: true,
+        characterData: true,
+        characterDataOldValue: true,
+        subtree: true,
+      };
+      this.mutationObserver.observe(document, config);
+    },
+    _onSelectedItemChanged: function(evt) {
+      this.setStyle();
+      // mutation observer for selected element
+
     },
     _onPropertiesChanged: function(evt) {
       var z = this;
@@ -46,7 +61,7 @@
     propertyValueChanged: function(value) {
       let pos = parseInt(value.path.split('.')[1], 10);
       let name = this._properties[pos].name;
-      this.selecteditem.style.setPropertyValue(name, value.value);
+      this.selecteditem.style[name] = value.value;
     }
   });
   </script>

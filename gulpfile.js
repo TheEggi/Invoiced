@@ -25,8 +25,6 @@ browserSync({
       },
 
         // bundler should be the same as above
-        webpackHotMiddleware(bundler)
-      ]
     },
 
     // no need to watch '*.js' here, webpack will take care of it for us,
@@ -34,7 +32,7 @@ browserSync({
     files: [
       'app/**/*.css',
       'app/**/*.html',
-      'app/**/*.js'
+      'app/**/*.js',
       'elements/**/*.html',
       'elements/**/*.css',
       'elements/**/*.js'

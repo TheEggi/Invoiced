@@ -73,11 +73,11 @@
     items: [{
       name: 'TESTCooler header1',
       icon: 'assignment',
-      createElement: function(){ document.createElement('test-item')},
+      createElement: () =>  document.createElement('test-item'),
     }, {
       name: 'TESTCooler header2',
       icon: 'account-balance',
-      createElement: function(){ document.createElement('table-item') },
+      createElement: () =>  document.createElement('table-item'),
     }]
   }, {
     name: 'TESTPayment Info',
