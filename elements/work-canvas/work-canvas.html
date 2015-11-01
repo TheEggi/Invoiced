@@ -73,6 +73,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         switch (e.detail.state) {
           case 'start':
+            this.$.mainCard.style.cursor = 'pointer';
             document.dragOffsetX = e.detail.x - this.selecteditem.getBoundingClientRect().left;
             document.dragOffsetY = e.detail.y - this.selecteditem.getBoundingClientRect().top;
             this.message = 'Tracking started!';
@@ -86,6 +87,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             setPosition(relativePoint, this.selecteditem);
             break;
           case 'end':
+            this.$.mainCard.style.cursor = 'default';
             this.message = 'Tracking ended!';
             break;
         }
@@ -111,14 +113,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _onMouseMove: function(evt) {
         var mousePos = ch.getMousePos(this.$.canvas, evt);
         ch.clearCanvas(this.$.canvas);
-        if (this.showArrows) {
+        // if (this.showArrows) {
           var endVector = new Victor(mousePos.x, 0);
           var startVector = new Victor(mousePos.x, mousePos.y);
           ch.drawArrowHead(this.$.canvas, startVector, endVector);
           var endVector = new Victor(0, mousePos.y);
           var startVector = new Victor(mousePos.x, mousePos.y);
           ch.drawArrowHead(this.$.canvas, startVector, endVector);
-        }
+        // }
       },
       attached: function(evt) {
         let setPosition = (pos, element) => {
