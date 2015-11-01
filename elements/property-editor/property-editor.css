@@ -26,3 +26,11 @@
     background: var(--default-primary-color);
     /*-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.5);*/
 }
+::-moz-appearance-scrollbarthumb-vertical {
+  border-radius: 3px;
+  background: #90caf9;
+}
+::--moz-appearance-scrollbartrack-horizontal {
+    /*-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3);*/
+    background: #90caf9;
+}

@@ -27,7 +27,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       properties: {
         showarrows: {
           type: Boolean,
-          value: false
+          value: true
         },
         selecteditem: {
           type: Object,
@@ -46,19 +46,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           let offsetTop = 0;
           let offsetLeft = 0;
           let target = this.$.content;
-          do {
-            offsetTop += target.offsetTop;
-            offsetLeft += target.offsetLeft;
-          } while (target = target.parentElement)
-          relativePoint = {
-            x: parseInt(pos.x, 10), // - offsetLeft,
-            y: parseInt(pos.y, 10), // - offsetTop
-          }
-
+          // do {
+          //   offsetTop += target.offsetTop;
+          //   offsetLeft += target.offsetLeft;
+          // } while (target = target.parentElement)
+          // relativePoint = {
+          //   x: parseInt(pos.x, 10), // - offsetLeft,
+          //   y: parseInt(pos.y, 10), // - offsetTop
+          // }
+          relativePoint = pos;
           let rect = this.$.mainCard.getBoundingClientRect();
+        //  console.log(`rect  ${rect.left} relativepoint.x ${relativePoint.x}`);
+
+          relativePoint.x -= document.dragOffsetX;
           relativePoint.x -= rect.left;
-          relativePoint.y -= rect.top;
           relativePoint.x /= rect.width;
+
+          relativePoint.y -= document.dragOffsetY;
+          relativePoint.y -= rect.top;
           relativePoint.y /= rect.height;
 
           element.style.top = (relativePoint.y * 100) + '%';
@@ -68,11 +73,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         switch (e.detail.state) {
           case 'start':
+            document.dragOffsetX = e.detail.x - this.selecteditem.getBoundingClientRect().left;
+            document.dragOffsetY = e.detail.y - this.selecteditem.getBoundingClientRect().top;
             this.message = 'Tracking started!';
             e.preventDefault();
             break;
           case 'track':
-            let rect = this.$.mainCard.getBoundingClientRect();
             let relativePoint = {
               x: e.detail.x,
               y: e.detail.y
