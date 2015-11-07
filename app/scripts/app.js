@@ -63,25 +63,28 @@
     app.searchInput = '';
 
   };
-  app.asdf = function(e){
-    var z = 'asdf';
-    console.log('this sucks');
-  };
   app.paletteItems = [{
-    name: 'Headerssss',
+    name: 'Report Bands',
     icon: 'view-headline',
     items: [{
-      name: 'TESTCooler header1',
-      icon: 'assignment',
-      createElement: () =>  document.createElement('test-item'),
+      name: 'Table',
+      icon: 'tab',
+      createElement: () =>  document.createElement('table-item'),
     }, {
       name: 'TESTCooler header2',
       icon: 'account-balance',
-      createElement: () =>  document.createElement('table-item'),
+      createElement: () =>  document.createElement('test-item'),
     }]
   }, {
-    name: 'TESTPayment Info',
-    icon: 'payment'
+    name: 'Data Sources',
+    icon: 'invoiced-icons:database',
+    items: [
+      {
+        name: 'Relational DBMS',
+        icon: 'invoiced-icons:database_plus',
+        createElement: () => document.createElement('rdbms-datasource'),
+      },
+    ]
   }];
 
 })(document);

@@ -11,12 +11,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <dom-module id="work-canvas">
   <link rel="import" type="css" href="work-canvas.css">
   <template>
-    <paper-material id="mainCard" class="main" elevation="3" on-click="_onClick" on-track="_onTrack">
-      <div class="card-content" id="content">
-        <canvas style="position: absolute; left: 0; top: 0; z-index: 0;" id="gridCanvas" width="500" height="500"></canvas>
-        <canvas style="position: absolute; left: 0; top: 0; z-index: 1;" id="arcCanvas" width="500" height="500"></canvas>
-        <canvas style="position: absolute; left: 0; top: 0; z-index: 2;" id="canvas" on-track="_onTrack" on-mousemove="_onMouseMove" height="500" width="500"></canvas>
-      </div>
+    <paper-material elevation="3" class="mainWrapper">
+      <paper-material id="mainCard" class="main" elevation="1" on-click="_onClick" on-track="_onTrack">
+        <div class="card-content" id="content">
+          <canvas style="position: absolute; left: 0; top: 0; z-index: 0;" id="gridCanvas" width="500" height="500"></canvas>
+          <canvas style="position: absolute; left: 0; top: 0; z-index: 1;" id="arcCanvas" width="500" height="500"></canvas>
+          <canvas style="position: absolute; left: 0; top: 0; z-index: 2;" id="canvas" on-track="_onTrack" on-mousemove="_onMouseMove" height="500" width="500"></canvas>
+        </div>
+      </paper-material>
     </paper-material>
   </template>
   <script>
@@ -27,7 +29,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       properties: {
         showarrows: {
           type: Boolean,
-          value: true
+          value: false
         },
         selecteditem: {
           type: Object,
@@ -40,55 +42,62 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
       _onTrack: function(e) {
-        let setPosition = (pos, element) => {
+        const setPosition = (pos, element) => {
 
           let relativePoint = {};
           let offsetTop = 0;
           let offsetLeft = 0;
           let target = this.$.content;
-          // do {
-          //   offsetTop += target.offsetTop;
-          //   offsetLeft += target.offsetLeft;
-          // } while (target = target.parentElement)
-          // relativePoint = {
-          //   x: parseInt(pos.x, 10), // - offsetLeft,
-          //   y: parseInt(pos.y, 10), // - offsetTop
-          // }
           relativePoint = pos;
           let rect = this.$.mainCard.getBoundingClientRect();
-        //  console.log(`rect  ${rect.left} relativepoint.x ${relativePoint.x}`);
 
-          relativePoint.x -= document.dragOffsetX;
+          let maxWidth = ((rect.width - element.offsetWidth) / rect.width) * 100;
+          let maxHeight = ((rect.height - element.offsetHeight) / rect.height) * 100;
+
+          relativePoint.x -= element.dragOffset.x;
           relativePoint.x -= rect.left;
           relativePoint.x /= rect.width;
 
-          relativePoint.y -= document.dragOffsetY;
+          relativePoint.y -= element.dragOffset.y;
           relativePoint.y -= rect.top;
           relativePoint.y /= rect.height;
-
-          element.style.top = (relativePoint.y * 100) + '%';
-          element.style.left = (relativePoint.x * 100) + '%';
+          element.style.top = Math.min(Math.max((relativePoint.y * 100), 0), maxHeight) + '%';
+          element.style.left = Math.min(Math.max((relativePoint.x * 100), 0), maxWidth) + '%';
           element.style.position = 'absolute';
           return pos;
         }
         switch (e.detail.state) {
           case 'start':
-            this.$.mainCard.style.cursor = 'pointer';
-            document.dragOffsetX = e.detail.x - this.selecteditem.getBoundingClientRect().left;
-            document.dragOffsetY = e.detail.y - this.selecteditem.getBoundingClientRect().top;
-            this.message = 'Tracking started!';
-            e.preventDefault();
+            let hoverItems = document.querySelectorAll('.element:hover');
+            this.allowDrag = false;
+            for (let i = 0; i < hoverItems.length; i++) {
+              if (hoverItems[i] == this.selecteditem) {
+                this.allowDrag = true;
+              }
+            }
+            if (this.allowDrag) {
+              this.$.mainCard.style.cursor = 'pointer';
+              this.selecteditem.bounding = this.selecteditem.getBoundingClientRect();
+              this.selecteditem.dragOffset = {
+                x: e.detail.x - this.selecteditem.bounding.left,
+                y: e.detail.y - this.selecteditem.bounding.top
+              }
+              e.preventDefault();
+
+            }
             break;
           case 'track':
-            let relativePoint = {
-              x: e.detail.x,
-              y: e.detail.y
-            };
-            setPosition(relativePoint, this.selecteditem);
+            if (this.allowDrag) {
+              let relativePoint = {
+                x: e.detail.x,
+                y: e.detail.y
+              };
+              setPosition(relativePoint, this.selecteditem);
+            }
             break;
           case 'end':
+            this.selecteditem.dragOffset = undefined;
             this.$.mainCard.style.cursor = 'default';
-            this.message = 'Tracking ended!';
             break;
         }
       },
@@ -113,14 +122,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _onMouseMove: function(evt) {
         var mousePos = ch.getMousePos(this.$.canvas, evt);
         ch.clearCanvas(this.$.canvas);
-        // if (this.showArrows) {
+        if (this.showArrows) {
           var endVector = new Victor(mousePos.x, 0);
           var startVector = new Victor(mousePos.x, mousePos.y);
           ch.drawArrowHead(this.$.canvas, startVector, endVector);
           var endVector = new Victor(0, mousePos.y);
           var startVector = new Victor(mousePos.x, mousePos.y);
           ch.drawArrowHead(this.$.canvas, startVector, endVector);
-        // }
+        }
       },
       attached: function(evt) {
         let setPosition = (pos, element) => {

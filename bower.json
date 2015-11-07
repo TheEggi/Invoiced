@@ -1,5 +1,5 @@
 {
-  "name": "polymer-starter-kit",
+  "name": "invoiced",
   "private": true,
   "dependencies": {
     "imd": "PolymerLabs/IMD#~1.0.0",
@@ -8,13 +8,14 @@
     "page": "visionmedia/page.js#~1.6.3",
     "paper-elements": "PolymerElements/paper-elements#1.0.1",
     "platinum-elements": "PolymerElements/platinum-elements#1.0.1",
-    "victor": "~1.1.0"
+    "victor": "~1.1.0",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#~1.0.5"
   },
   "devDependencies": {
     "web-component-tester": "*",
     "test-fixture": "PolymerElements/test-fixture#^1.0.0"
   },
   "resolutions": {
-    "polymer": "^1.1.0"
+    "polymer": "^1.2.0"
   }
 }

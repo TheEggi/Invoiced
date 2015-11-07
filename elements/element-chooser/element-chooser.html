@@ -51,161 +51,161 @@
   'use strict';
   Polymer({
     is: 'element-chooser',
-      properties: {
-        items: {
-          type: Array,
-          notify: true,
-        },
+    properties: {
+      items: {
+        type: Array,
+        notify: true,
       },
-      _onClick: function(e) {
+    },
+    _onClick: function(e) {
 
-        let element = e.currentTarget;
-        let dataItem = element.dataHost.__data__.item;
-        if (dataItem.createElement) {
-          e.preventDefault();
-        }
-      },
-      _onMouseDown: function(e) {
+      let element = e.currentTarget;
+      let dataItem = element.dataHost.__data__.item;
+      if (dataItem.createElement) {
+        e.preventDefault();
+      }
+    },
+    _onMouseDown: function(e) {
+      'use strict';
+
+      function getStyleProperties(style) {
         'use strict';
+        let styles = {};
+        styles = Object.assign(styles, style);
 
-        function getStyleProperties(style) {
-          'use strict';
-          let styles = {};
-          styles = Object.assign(styles, style);
+        return styles;
+      }
 
-          return styles;
-        }
-
-        function createDragProxy(node, stripMargins) {
-          'use strict';
-          if (node.nodeType === Node.TEXT_NODE) {
-            return node.cloneNode();
-          } else if (node.nodeType === Node.ELEMENT_NODE) {
-            let style = window.getComputedStyle(node);
-            if (style.display === 'none') {
-              return null;
-            }
-            let clone;
-            if (style.display === 'inline') {
-              clone = node.ownerDocument.createElement('span');
-            } else {
-              clone = node.ownerDocument.createElement('div');
-            }
-            for (let i = 0; i < node.attributes.length; i++) {
-              let attr = node.attributes[i];
-              clone.setAttribute(attr.name, attr.value);
-            }
-            let properties = getStyleProperties(style);
-            let styleText = Object.keys(properties)
-              .filter(function(prop) {
-                return !(stripMargins && prop.startsWith('margin'));
-              })
-              .map(function(prop) {
-                return `${prop}: ${properties[prop]}`;
-              })
-              .join('; ');
-            clone.setAttribute('style', styleText);
-            for (let i = 0; i < node.childNodes.length; i++) {
-              let child = createDragProxy(node.childNodes[i]);
-              if (child) {
-                clone.appendChild(child);
-              }
-            }
-            return clone;
+      function createDragProxy(node, stripMargins) {
+        'use strict';
+        if (node.nodeType === Node.TEXT_NODE) {
+          return node.cloneNode();
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+          let style = window.getComputedStyle(node);
+          if (style.display === 'none') {
+            return null;
           }
-          return null;
-        }
-
-
-        switch (e.detail.state) {
-          case 'start':
-            this.message = 'Tracking started!';
-            let element = e.currentTarget;
-            let dataItem = element.dataHost.__data__.item;
-            //var newElement = dataItem.createElement('div');
-            if (!dataItem.createElement) return;
-            let newElement = dataItem.createElement();
-            newElement.style.zIndex = 200;
-            // Polymer.dom(newElement).append('draggable', true);
-            this.$.currentlyDragged = newElement;
-            let proxy = createDragProxy(this.$.currentlyDragged, true);
-            this.$.proxy.innerHTML = proxy.outerHTML;
-            let bounds = element.getBoundingClientRect();
-            this._updateDragProxy({
-              left: e.detail.x,
-              top: e.detail.y,
-              width: this.$.currentlyDragged.offsetWidth,
-              height: this.$.currentlyDragged.offsetHeight,
-            });
-            break;
-          case 'track':
-            this.message = 'Tracking in progress... ' +
-              e.detail.x + ', ' + e.detail.y;
-            this._updateDragProxy({
-              left: e.detail.x,
-              top: e.detail.y,
-              width: this.$.currentlyDragged.offsetWidth,
-              height: this.$.currentlyDragged.offsetHeight
-            });
-
-            break;
-          case 'end':
-            this.message = 'Tracking ended!';
-            this._hideDragProxy(this.$.currentlyDragged);
-            this.$.currentlyDragged.style.zIndex = '100';
-            this.$.currentlyDragged.classList.add('element');
-            this.fire('elementcreated', {
-              element: this.$.currentlyDragged,
-              position: {
-                x: this.$.proxy.style.left,
-                y: this.$.proxy.style.top
-              }
-            });
-            break;
-        }
-      },
-      _onProxyMouseOver(e) {
-        e.stopPropagation();
-      },
-      _onProxyMouseOut(e) {
-        e.stopPropagation();
-      },
-      _onProxyMouseUp() {
-        // this is a hack to keep the mini-nav from expanding when the proxy
-        // is released
-        this.fire('designer-mini-nav-collapse');
-      },
-      _updateDragProxy(bounds) {
-        var style = this.$.proxy.style;
-        style.display = 'block';
-        style.top = bounds.top + 'px';
-        style.left = bounds.left + 'px';
-        style.width = bounds.width + 'px';
-        style.height = bounds.height + 'px';
-      },
-      _hideDragProxy() {
-        var style = this.$.proxy.style;
-        style.display = 'none';
-      },
-      _dropAreaChanged: function(e) {
-        var changed = true;
-      },
-      _itemsChanged: function(e) {
-        var changed = true;
-      },
-      drag: function(e) {
-
-        function guid() {
-          function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000)
-              .toString(16)
-              .substring(1);
+          let clone;
+          if (style.display === 'inline') {
+            clone = node.ownerDocument.createElement('span');
+          } else {
+            clone = node.ownerDocument.createElement('div');
           }
-          return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-            s4() + '-' + s4() + s4() + s4();
+          for (let i = 0; i < node.attributes.length; i++) {
+            let attr = node.attributes[i];
+            clone.setAttribute(attr.name, attr.value);
+          }
+          let properties = getStyleProperties(style);
+          let styleText = Object.keys(properties)
+            .filter(function(prop) {
+              return !(stripMargins && prop.startsWith('margin'));
+            })
+            .map(function(prop) {
+              return `${prop}: ${properties[prop]}`;
+            })
+            .join('; ');
+          clone.setAttribute('style', styleText);
+          for (let i = 0; i < node.childNodes.length; i++) {
+            let child = createDragProxy(node.childNodes[i]);
+            if (child) {
+              clone.appendChild(child);
+            }
+          }
+          return clone;
         }
+        return null;
+      }
 
-      },
+
+      switch (e.detail.state) {
+        case 'start':
+          this.message = 'Tracking started!';
+          let element = e.currentTarget;
+          let dataItem = element.dataHost.__data__.item;
+          //var newElement = dataItem.createElement('div');
+          if (!dataItem.createElement) return;
+          let newElement = dataItem.createElement();
+          newElement.style.zIndex = 200;
+          // Polymer.dom(newElement).append('draggable', true);
+          this.$.currentlyDragged = newElement;
+          let proxy = createDragProxy(this.$.currentlyDragged, true);
+          this.$.proxy.innerHTML = proxy.outerHTML;
+          let bounds = element.getBoundingClientRect();
+          this._updateDragProxy({
+            left: e.detail.x,
+            top: e.detail.y,
+            width: this.$.currentlyDragged.offsetWidth,
+            height: this.$.currentlyDragged.offsetHeight,
+          });
+          break;
+        case 'track':
+          this.message = 'Tracking in progress... ' +
+            e.detail.x + ', ' + e.detail.y;
+          this._updateDragProxy({
+            left: e.detail.x,
+            top: e.detail.y,
+            width: this.$.currentlyDragged.offsetWidth,
+            height: this.$.currentlyDragged.offsetHeight
+          });
+
+          break;
+        case 'end':
+          this.message = 'Tracking ended!';
+          this._hideDragProxy(this.$.currentlyDragged);
+          this.$.currentlyDragged.style.zIndex = '100';
+          this.$.currentlyDragged.classList.add('element');
+          this.fire('elementcreated', {
+            element: this.$.currentlyDragged,
+            position: {
+              x: this.$.proxy.style.left,
+              y: this.$.proxy.style.top
+            }
+          });
+          break;
+      }
+    },
+    _onProxyMouseOver(e) {
+      e.stopPropagation();
+    },
+    _onProxyMouseOut(e) {
+      e.stopPropagation();
+    },
+    _onProxyMouseUp() {
+      // this is a hack to keep the mini-nav from expanding when the proxy
+      // is released
+      this.fire('designer-mini-nav-collapse');
+    },
+    _updateDragProxy(bounds) {
+      var style = this.$.proxy.style;
+      style.display = 'block';
+      style.top = bounds.top + 'px';
+      style.left = bounds.left + 'px';
+      style.width = bounds.width + 'px';
+      style.height = bounds.height + 'px';
+    },
+    _hideDragProxy() {
+      var style = this.$.proxy.style;
+      style.display = 'none';
+    },
+    _dropAreaChanged: function(e) {
+      var changed = true;
+    },
+    _itemsChanged: function(e) {
+      var changed = true;
+    },
+    drag: function(e) {
+
+      function guid() {
+        function s4() {
+          return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+          s4() + '-' + s4() + s4() + s4();
+      }
+
+    },
   });
   </script>
 </dom-module>
