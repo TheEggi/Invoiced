@@ -1,4 +1,3 @@
-
 (function(document) {
   'use strict';
 
@@ -69,22 +68,29 @@
     items: [{
       name: 'Table',
       icon: 'tab',
-      createElement: () =>  document.createElement('table-item'),
+      createElement: {
+        element: () => document.createElement('table-item'),
+        isDragable: true,
+      },
     }, {
       name: 'TESTCooler header2',
       icon: 'account-balance',
-      createElement: () =>  document.createElement('test-item'),
+      createElement: {
+        element: () => document.createElement('test-item'),
+        isDragable: true,
+      },
     }]
   }, {
     name: 'Data Sources',
     icon: 'invoiced-icons:database',
-    items: [
-      {
-        name: 'Relational DBMS',
-        icon: 'invoiced-icons:database_plus',
-        createElement: () => document.createElement('rdbms-datasource'),
+    items: [{
+      name: 'Relational DBMS',
+      icon: 'invoiced-icons:database_plus',
+      createElement: {
+        element: () => document.createElement('rdbms-datasource'),
+        isDragable: false,
       },
-    ]
+    }, ]
   }];
 
 })(document);

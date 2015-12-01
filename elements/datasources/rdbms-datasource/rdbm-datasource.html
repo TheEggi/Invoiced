@@ -1,0 +1,58 @@
+<dom-module id="rdbms-datasource">
+  <link rel="import" type="css" href="rdbms-datasource.css">
+  <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+  <link rel="import" href="../../../bower_components/paper-dialog/paper-dialog.html">
+  <link rel="import" href="../../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+  <template>
+    <div>
+      <labeled-icon-button icon="invoiced-icons:database" label="{{_computeName(user, server)}}" on-click="_toggleDialog"></labeled-icon-button>
+      <paper-dialog id="rdbmssettingsdialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+        <h2>Input DBMS settings</h2>
+        <paper-dialog-scrollable>
+          <div class="layout vertical">
+            <paper-input label="User">{{user}}</paper-input>
+            <paper-input label="Password">{{password}}</paper-input>
+            <paper-input label="Server">{{server}}</paper-input>
+          </div>
+        </paper-dialog-scrollable>
+        <div class="buttons">
+          <section>
+            <paper-button>Test Connection</paper-button>
+            <paper-button dialog-dismiss>Cancel</paper-button>
+            <paper-button dialog-confirm>Accept</paper-button>
+        </div>
+      </paper-dialog>
+    </div>
+  </template>
+  <script>
+  define(function(ch) {
+    'use strict';
+    Polymer({
+      is: 'rdbms-datasource',
+      properties: {
+        user: {
+          type: String,
+          value: 'asdf',
+        },
+        password: {
+          type: String,
+          value: 'test',
+        },
+        server: {
+          type: String,
+          value: '11111',
+        },
+      },
+      created: function() {},
+      attached: function() {},
+      _computeName: function(user, server) {
+        return (user || 'Unknown') + '@' + (server || 'Unknown');
+      },
+      _toggleDialog: function() {
+        this.$.rdbmssettingsdialog.toggle();
+      }
+
+    });
+  });
+  </script>
+</dom-module>

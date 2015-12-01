@@ -8,25 +8,10 @@
           <template is="dom-if" if="{{item.items}}">
             <paper-submenu>
               <!-- header -->
-              <paper-item on-track="_onMouseDown" on-click="_onClick" class="menu-trigger rootMenuItem element">
-                <div class="sequentialWrapper">
-                  <iron-icon class="iconItem" icon="{{item.icon}}"></iron-icon>
-                  <div class="textItem">
-                    <div class="textContent">{{item.name}}</div>
-                  </div>
-                </div>
-              </paper-item>
-              <!-- iterate content -->
+              <labeled-icon-button icon="{{item.icon}}" label="{{item.name}}" on-track="_onMouseDown" on-click="_onClick" class="menu-trigger rootMenuItem element">></labeled-icon-button>
               <paper-menu class="menu-content">
                 <template is="dom-repeat" items="{{item.items}}">
-                  <paper-item on-track="_onMouseDown" on-click="_onClick" class="element">
-                    <div class="sequentialWrapper subMenuItem">
-                      <iron-icon class="iconItem" icon="{{item.icon}}"></iron-icon>
-                      <div class="textItem">
-                        <div class="textContent">{{item.name}}</div>
-                      </div>
-                    </div>
-                  </paper-item>
+                  <labeled-icon-button on-track="_onMouseDown" on-click="_onClick" icon="{{item.icon}}" label="{{item.name}}" class="subMenuItem"></labeled-icon-button>
                 </template>
               </paper-menu>
             </paper-submenu>
@@ -61,7 +46,7 @@
 
       let element = e.currentTarget;
       let dataItem = element.dataHost.__data__.item;
-      if (dataItem.createElement) {
+      if (dataItem.createElement && dataItem.createElement.isDragable) {
         e.preventDefault();
       }
     },
@@ -123,8 +108,11 @@
           let element = e.currentTarget;
           let dataItem = element.dataHost.__data__.item;
           //var newElement = dataItem.createElement('div');
-          if (!dataItem.createElement) return;
-          let newElement = dataItem.createElement();
+          if (!dataItem.createElement || !dataItem.createElement.isDragable || !dataItem.createElement.element) {
+            this.$.currentlyDragged = undefined;
+            return;
+          }
+          let newElement = dataItem.createElement.element();
           newElement.style.zIndex = 200;
           // Polymer.dom(newElement).append('draggable', true);
           this.$.currentlyDragged = newElement;
@@ -150,17 +138,18 @@
 
           break;
         case 'end':
-          this.message = 'Tracking ended!';
-          this._hideDragProxy(this.$.currentlyDragged);
-          this.$.currentlyDragged.style.zIndex = '100';
-          this.$.currentlyDragged.classList.add('element');
-          this.fire('elementcreated', {
-            element: this.$.currentlyDragged,
-            position: {
-              x: this.$.proxy.style.left,
-              y: this.$.proxy.style.top
-            }
-          });
+          if (this.$.currentlyDragged) {
+            this._hideDragProxy(this.$.currentlyDragged);
+            this.$.currentlyDragged.style.zIndex = '100';
+            this.$.currentlyDragged.classList.add('element');
+            this.fire('elementcreated', {
+              element: this.$.currentlyDragged,
+              position: {
+                x: this.$.proxy.style.left,
+                y: this.$.proxy.style.top
+              }
+            });
+          }
           break;
       }
     },

@@ -1,0 +1,6 @@
+.sequentialWrapper {
+  display: flex;
+  justify-content: stretch;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}

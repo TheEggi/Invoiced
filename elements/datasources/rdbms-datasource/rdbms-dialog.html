@@ -1,0 +1,43 @@
+<dom-module id="rdbms-dialog">
+  <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+  <link rel="import" type="css" href="rdbms-dialog.css">
+  <template>
+    <paper-dialog id="rdbmssettingsdialog">
+      <h2>Input DBMS settings</h2>
+      <paper-dialog-scrollable>
+        <div class="layout vertical">
+          <paper-input label="User">{{user}}</paper-input>
+          <paper-input label="Password">{{password}}</paper-input>
+          <paper-input label="Server">{{server}}</paper-input>
+        </div>
+      </paper-dialog-scrollable>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm>Accept</paper-button>
+      </div>
+    </paper-dialog>
+  </template>
+  <script>
+  define(function(ch) {
+    'use strict';
+    Polymer({
+      is: 'rdbms-dialog',
+      properties: {
+        user: {
+          type: String,
+        },
+        password: {
+          type: String,
+        },
+        server: {
+          type: String,
+        },
+      },
+      attached: function(){
+        
+      },
+
+    });
+  });
+  </script>
+</dom-module>
