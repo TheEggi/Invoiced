@@ -3,10 +3,11 @@
 }
 
 paper-material.mainWrapper {
-  height: 90%;
-  width: 90%;
+  height: 100%;
+  width: 100%;
   margin: 20px;
-  padding: 40px
+  padding: 40px;
+  background: orange;
 }
 
 paper-material.main {
@@ -18,10 +19,6 @@ paper-material.main {
   -moz-user-select: -moz-none;
   -khtml-user-select: none;
   -webkit-user-select: none;
-  /*
-     Introduced in IE 10.
-     See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
-   */
   -ms-user-select: none;
   user-select: none;
 }

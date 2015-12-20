@@ -39,8 +39,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         items: {
           type: Array,
           value: []
+        },
+        datasources: {
+          type: Array,
+          value: function() {
+            return [];
+          }
         }
       },
+      observers: [
+        '_datasourcesChanged(datasources.splices)'
+      ],
       _onTrack: function(e) {
         const setPosition = (pos, element) => {
 
@@ -100,6 +109,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             this.$.mainCard.style.cursor = 'default';
             break;
         }
+      },
+      _datasourcesChanged: function(evt) {
+        //Polymer.dom(this.$.content).appendChild(newElement);
+        var z = '123';
       },
       _onClick: function(evt) {
         var target = evt.target;
@@ -178,6 +191,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           Polymer.dom(this.$.content).appendChild(newElement);
           this.items.push(newElement);
           this.selecteditem = newElement;
+        });
+        document.querySelector('item-palette').addEventListener('datasourcecreated', (e) => {
+          let newElement = e.detail.element;
+          this.datasources.push(newElement);
+          Polymer.dom(this.$.datasources).appendChild(newElement);
         });
         let keyCodes = {
           left: 37,

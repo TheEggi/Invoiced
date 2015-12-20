@@ -30,9 +30,11 @@
     Polymer({
       is: 'rdbms-datasource',
       properties: {
-        user: {
+        user: {  
           type: String,
-          value: 'asdf',
+          value: funtion(){
+            return Math.floor((Math.random() * 100) + 1);
+          },
         },
         password: {
           type: String,
