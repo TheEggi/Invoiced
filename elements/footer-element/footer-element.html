@@ -1,0 +1,48 @@
+<dom-module id="footer-element">
+  <link rel="import" type="css" href="footer-element.css">
+  <template>
+    <paper-material elevated="3">
+      <div class="footer" id="footerContent">
+      </div>
+    </paper-material>
+  </template>
+  <script>
+  define(function(ch) {
+    'use strict';
+    Polymer({
+      is: 'footer-element',
+      properties: {
+        elements: {
+          type: Array,
+          value: [],
+        },
+      },
+      observers: [
+        'elementsAddedOrRemoved(elements.splices)'
+      ],
+      created: function() {},
+      attached: function() {
+        document.querySelector('item-palette').addEventListener('footerElementCreated', (e) => {
+          let newElement = e.detail.element;
+          this.elements.push(newElement);
+        });
+
+      },
+      elementsAddedOrRemoved: function(changeRecord) {
+        if (changeRecord) {
+
+
+          changeRecord.indexSplices.forEach(function(s) {
+            s.removed.forEach(function(element) {
+              Polymer.dom(this.$.footerContent).appendChild(element);
+            });
+            s.added.forEach(function(element) {
+              Polymer.dom(this.$.footerContent).removeChild(element)
+            })
+          }, this);
+        }
+      }
+    });
+  });
+  </script>
+</dom-module>

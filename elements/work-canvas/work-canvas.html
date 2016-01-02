@@ -11,7 +11,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <dom-module id="work-canvas">
   <link rel="import" type="css" href="work-canvas.css">
   <template>
-    <paper-material elevation="3" class="mainWrapper">
+    <div id="main"></div>
+    <!--<paper-material elevation="3" class="mainWrapper">
       <paper-material id="mainCard" class="main" elevation="1" on-click="_onClick" on-track="_onTrack">
         <div class="card-content" id="content">
           <canvas style="position: absolute; left: 0; top: 0; z-index: 0;" id="gridCanvas" width="500" height="500"></canvas>
@@ -19,7 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <canvas style="position: absolute; left: 0; top: 0; z-index: 2;" id="canvas" on-track="_onTrack" on-mousemove="_onMouseMove" height="500" width="500"></canvas>
         </div>
       </paper-material>
-    </paper-material>
+    </paper-material>-->
   </template>
   <script>
   define(['invoiced-canvashelper', 'Victor'], function(ch, Victor) {

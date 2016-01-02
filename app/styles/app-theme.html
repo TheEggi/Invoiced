@@ -62,18 +62,6 @@ paper-button {
   border-bottom: var(--drawer-toolbar-border-color);
 }
 
-#dropZone {
-  width: 95%;
-  height: 95%;
-  position: relative;
-}
-.content {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  width: 100%;
-}
-
 paper-scroll-header-panel {
   height: 100%;
 }
@@ -126,30 +114,38 @@ paper-toolbar.tall .app-name {
   transform-origin: left center;
 }
 
-#mainToolbar {
-  height: 150px;
-}
 
-#mainToolbar .middle-container {
+#dropZone {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.content {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row;
   height: 100%;
   width: 100%;
-  background: var(--default-primary-color)
-}
-
-
-
-#mainCanvas {
-  width: 100%;
-  height: 100%;
 }
 
 #mainPalette {
-  width: 20%;
+  padding: 20px;
+  min-width: 15rem;
+  flex: 0;
+}
+
+
+#mainCanvas {
+  border: 1px black dashed;
+  padding: 20px;
+  flex: 1;
+}
+
+.row{
+  display: flex;
+  flex-direction: column;
   height: 100%;
 }
+
 
 paper-toolbar::shadow #topBar {
   height: 100%;

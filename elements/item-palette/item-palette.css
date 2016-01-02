@@ -1,13 +1,10 @@
 :host {
-  display: left;
-  position: relative;
-  height: 90%;
-  width: 90%;
+  height: 100%;
+  width: 100%;
+  display: block;
 }
 
 #toolbar {
-  content-alignment: center;
   height: 100%;
-  width: 95%;
-  margin: 20px;
+  width: 100%;
 }

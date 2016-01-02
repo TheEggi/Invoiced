@@ -1,14 +1,13 @@
 :host {
-  position: absolute;
   height: 100%;
   width: 100%;
+  display: block;
 }
 
 #propertyContainer {
   overflow-y: hidden;
   display: left;
-  height: calc(95% - 30px);
-  margin: 10px;
+  height: 100%;
   padding-right: 10px;
   overflow-y: scroll;
   box-sizing: border-box;
