@@ -1,0 +1,46 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../dependencies.html">
+<link rel="import" href="drag-handle-style.html">
+<dom-module id="drag-handle">
+  <template>
+    <style include="drag-handle-style"></style>
+    <div id="handle" on-track="_onTrack"></div>
+  </template>
+  <script>
+  define(['invoiced-canvashelper', 'Victor'], function(ch, Victor) {
+    'use strict'
+    Polymer({
+      is: 'drag-handle',
+      _onTrack: function(e) {
+
+        switch (e.detail.state) {
+          case 'start':
+            this.parentLeft = Polymer.dom(this).previousSibling.previousSibling;
+            this.container = Polymer.dom(this).parentNode;
+            this.containerWidth = this.container.offsetWidth;
+            this.leftWidth = this.parentLeft.offsetWidth;
+
+            this.leftWidthPercentage = this.leftWidth / this.containerWidth;
+
+            this.size = parseInt(getComputedStyle(this.parentLeft).width);
+            break;
+          case 'track':
+            let percentageChange = (e.detail.dx / this.containerWidth);
+            this.parentLeft.style.width = (this.size + e.detail.dx) + 'px';
+            break;
+          case 'end':
+            break;
+        }
+      },
+    });
+  });
+  </script>
+</dom-module>

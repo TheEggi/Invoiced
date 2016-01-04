@@ -8,9 +8,10 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <link rel="import" href="../dependencies.html">
+<link rel="import" href="work-canvas-style.html">
 <dom-module id="work-canvas">
-  <link rel="import" type="css" href="work-canvas.css">
   <template>
+    <style include="work-canvas-style"></style>
     <paper-material elevation="3" class="mainWrapper">
       <paper-material id="mainCard" class="main" elevation="1" on-click="_onClick" on-track="_onTrack">
         <div class="card-content" id="content">

@@ -1,0 +1,27 @@
+<dom-module id="drag-handle-style">
+  <template>
+    <style>
+    :host {
+      display: block;
+      width: 10px;
+      height: 100%;
+      background: green;
+      cursor: e-resize;
+      width: 12px;
+      background: #efefef url(handle.svg) no-repeat center;
+      box-shadow: inset 0 0 2px 1px #ccc;
+    }
+    .horizontal{
+      height: 10px;
+      width: 100%;
+      cursor: n-resize;
+      background-image: url(handle-h.svg);
+    }
+    #handle{
+      height: 100%;
+      width: 100%;
+    }
+    
+    </style>
+  </template>
+</dom-module>
