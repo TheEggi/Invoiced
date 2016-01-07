@@ -8,19 +8,28 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <link rel="import" href="../dependencies.html">
-<link rel="import" href="drag-handle-style.html">
-<dom-module id="drag-handle">
+<link rel="import" href="flex-splitter-style.html">
+<dom-module id="flex-splitter">
   <template>
-    <style include="drag-handle-style"></style>
+    <style include="flex-splitter-style"></style>
     <div id="handle" on-track="_onTrack"></div>
   </template>
   <script>
   define(['invoiced-canvashelper', 'Victor'], function(ch, Victor) {
     'use strict'
     Polymer({
-      is: 'drag-handle',
+      is: 'flex-splitter',
+      properties: {
+        horizontal: {
+          type: Boolean,
+          notify: true,
+        },
+        ancestorTarget: {
+          type: Boolean,
+          notify: true,
+        }
+      },
       _onTrack: function(e) {
-
         switch (e.detail.state) {
           case 'start':
             this.parentLeft = Polymer.dom(this).previousSibling.previousSibling;
