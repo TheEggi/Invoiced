@@ -8,33 +8,44 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <link rel="import" href="../dependencies.html">
-<link rel="import" href="drag-handle-style.html">
-<dom-module id="drag-handle">
+<link rel="import" href="flex-splitter-style.html">
+<dom-module id="flex-splitter">
   <template>
-    <style include="drag-handle-style"></style>
+    <style include="flex-splitter-style"></style>
     <div id="handle" on-track="_onTrack"></div>
   </template>
   <script>
   define(['invoiced-canvashelper', 'Victor'], function(ch, Victor) {
     'use strict'
     Polymer({
-      is: 'drag-handle',
+      is: 'flex-splitter',
+      properties: {
+        ancestor: {
+          type: Boolean,
+          value: false,
+        },
+        vertical: {
+          type: Boolean,
+          value: false,
+        },
+      },
+      attached: function() {
+        this._update(this.ancestor, this.vertical);
+      },
+      _update(ancestor, vertical) {
+        this._target = ancestor ? this.root.host.nextElementSibling : this.root.host.previousElementSibling;
+        this._targetProperty = vertical ? 'height' : 'width';
+      },
       _onTrack: function(e) {
 
         switch (e.detail.state) {
           case 'start':
-            this.parentLeft = Polymer.dom(this).previousSibling.previousSibling;
-            this.container = Polymer.dom(this).parentNode;
-            this.containerWidth = this.container.offsetWidth;
-            this.leftWidth = this.parentLeft.offsetWidth;
-
-            this.leftWidthPercentage = this.leftWidth / this.containerWidth;
-
-            this.size = parseInt(getComputedStyle(this.parentLeft).width);
+            this.size = parseInt(getComputedStyle(this._target)[this._targetProperty]);
             break;
           case 'track':
-            let percentageChange = (e.detail.dx / this.containerWidth);
-            this.parentLeft.style.width = (this.size + e.detail.dx) + 'px';
+            let change = this.vertical ? e.detail.dy : e.detail.dx;
+            change = this.ancestor ? -change : change;
+            this._target.style[this._targetProperty] = (this.size + change) + 'px';
             break;
           case 'end':
             break;

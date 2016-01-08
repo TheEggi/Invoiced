@@ -64,13 +64,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
         </paper-toolbar> -->
       <!-- Main Content -->
-      <div class="content">
-        <div id="mainPalette">
-          <item-palette droparea="{{dropArea}}" elements="{{paletteItems}}" selecteditem="{{selecteditem}}"></item-palette>
-        </div>
-        <drag-handle></drag-handle>
-        <div id="mainCanvas" class="divider-horizontal-left">
-          <work-canvas selecteditem="{{selecteditem}}"></work-canvas>
+      <div class="row">
+        <div class="content">
+          <div id="mainPalette">
+            <!-- <item-palette droparea="{{dropArea}}" elements="{{paletteItems}}" selecteditem="{{selecteditem}}"></item-palette> -->
+          </div>
+          <flex-splitter></flex-splitter>
+          <div id="mainCanvas">
+            <!-- <work-canvas selecteditem="{{selecteditem}}"></work-canvas> -->
+          </div>
         </div>
       </div>
       <!--</paper-scroll-header-panel>-->
