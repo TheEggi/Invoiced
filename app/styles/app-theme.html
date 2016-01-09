@@ -120,23 +120,34 @@ paper-toolbar.tall .app-name {
   height: 100%;
   position: relative;
 }
-
-.content {
-  @apply(--layout-horizontal);
+.rows{
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  width: 100%;
+}
+.columns {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
 }
 
 #mainPalette {
   padding: 20px;
-  height: 100%;
+  width: 220px;
+  display: flex;
 }
+
 
 #mainCanvas {
-  @apply(--layout-flex);
   padding: 20px;
-  height: 100%;
+  flex: 1;
+  display: flex;
 }
-
+.green{
+  background: green;
+  height: 100px;
+}
 #test {
   height: 100%;
   width: 100%;
