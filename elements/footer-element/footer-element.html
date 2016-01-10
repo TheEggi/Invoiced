@@ -2,7 +2,7 @@
   <link rel="import" type="css" href="footer-element.css">
   <template>
     <paper-material elevated="3">
-      <div class="footer" id="footerContent">
+      <div class="footer" id="footerContent" class="flex layout vertical">
       </div>
     </paper-material>
   </template>
@@ -30,8 +30,6 @@
       },
       elementsAddedOrRemoved: function(changeRecord) {
         if (changeRecord) {
-
-
           changeRecord.indexSplices.forEach(function(s) {
             s.removed.forEach(function(element) {
               Polymer.dom(this.$.footerContent).appendChild(element);

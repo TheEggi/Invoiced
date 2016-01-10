@@ -7,7 +7,6 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
-<link rel="import" href="../dependencies.html">
 <link rel="import" href="flex-splitter-style.html">
 <dom-module id="flex-splitter">
   <template>
@@ -15,51 +14,49 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div id="handle"></div>
   </template>
   <script>
-  define(['invoiced-canvashelper', 'Victor'], function(ch, Victor) {
-    'use strict'
-    Polymer({
-      is: 'flex-splitter',
-      properties: {
-        ancestor: {
-          type: Boolean,
-          value: false,
-        },
-        vertical: {
-          type: Boolean,
-          value: false,
-        },
+  'use strict'
+  Polymer({
+    is: 'flex-splitter',
+    properties: {
+      ancestor: {
+        type: Boolean,
+        value: false,
       },
-      listeners: {
-        'track': '_onTrack',
+      vertical: {
+        type: Boolean,
+        value: false,
       },
-      attached: function() {
-        this._update(this.ancestor, this.vertical);
-      },
-      _update(ancestor, vertical) {
-        this._target = ancestor ? this.root.host.nextElementSibling : this.root.host.previousElementSibling;
-        this._targetProperty = vertical ? 'height' : 'width';
-        if(vertical){
-          this.classList.add('vertical');
-        }else{
-          this.classList.remove('vertical');
-        }
-      },
-      _onTrack: function(e) {
+    },
+    listeners: {
+      'track': '_onTrack',
+    },
+    attached: function() {
+      this._update(this.ancestor, this.vertical);
+    },
+    _update(ancestor, vertical) {
+      this._target = ancestor ? this.root.host.nextElementSibling : this.root.host.previousElementSibling;
+      this._targetProperty = vertical ? 'height' : 'width';
+      if (vertical) {
+        this.classList.add('vertical');
+      } else {
+        this.classList.remove('vertical');
+      }
+    },
+    _onTrack: function(e) {
 
-        switch (e.detail.state) {
-          case 'start':
-            this.size = parseInt(getComputedStyle(this._target)[this._targetProperty]);
-            break;
-          case 'track':
-            let change = this.vertical ? e.detail.dy : e.detail.dx;
-            change = this.ancestor ? -change : change;
-            this._target.style[this._targetProperty] = (this.size + change) + 'px';
-            break;
-          case 'end':
-            break;
-        }
-      },
-    });
+      switch (e.detail.state) {
+        case 'start':
+          this.size = parseInt(getComputedStyle(this._target)[this._targetProperty]);
+          break;
+        case 'track':
+          let change = this.vertical ? e.detail.dy : e.detail.dx;
+          change = this.ancestor ? -change : change;
+          this._target.style[this._targetProperty] = (this.size + change) + 'px';
+          break;
+        case 'end':
+          break;
+      }
+    },
   });
   </script>
 </dom-module>
